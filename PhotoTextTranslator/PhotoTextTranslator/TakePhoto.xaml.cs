@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Plugin.Media;
+using Plugin.Media.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +17,24 @@ namespace PhotoTextTranslator
         public TakePhoto()
         {
             InitializeComponent();
+        }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            MediaFile text = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+            {
+                PhotoSize = PhotoSize.Medium,
+                Directory = "sample",
+                Name = $"{DateTime.UtcNow}.jpg"
+            });
+
+            if (text != null)
+            {
+                textPic.Source = ImageSource.FromStream(() =>
+                {
+                    return text.GetStream();
+                });
+            }
         }
     }
 }

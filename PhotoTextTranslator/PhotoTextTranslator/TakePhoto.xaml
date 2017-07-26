@@ -5,6 +5,8 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Take Photo Page" />
+            <Button Text="Take photo" Clicked="Button_Clicked" />
+            <Image x:Name="textPic" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
