@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PhotoTextTranslator.TakePhoto">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Take Photo Page" />
-            <Button Text="Take photo" Clicked="Button_Clicked" />
-            <Image x:Name="textPic" />
-        </StackLayout>
+        <StackLayout Orientation="Vertical">
+            <Button Text="Take photo" Clicked="Button_Clicked" Margin="20,20,20,20"/>
+            <StackLayout>
+                <Image x:Name="textPic" Aspect="AspectFit" />
+            </StackLayout>            
+        </StackLayout>        
     </ContentPage.Content>
 </ContentPage>
