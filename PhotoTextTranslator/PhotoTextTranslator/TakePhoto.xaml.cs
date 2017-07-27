@@ -83,6 +83,7 @@ namespace PhotoTextTranslator
                         }
                     }
                     picSentence.Text = sentence;
+                    TranslateManager.createInstance.setSentence(sentence);
                 }
             }
         }

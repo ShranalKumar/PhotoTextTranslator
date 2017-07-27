@@ -49,6 +49,7 @@
     <Compile Include="TakePhoto.xaml.cs">
       <DependentUpon>TakePhoto.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TranslateManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainPage.xaml">
