@@ -4,5 +4,5 @@
              xmlns:local="clr-namespace:PhotoTextTranslator"
              x:Class="PhotoTextTranslator.MainPage">
     <local:TakePhoto Title="Take Photo" />
-    <local:AnalysePhoto Title="Analyse Photo" />
+    <local:AnalysePhoto Title="Translate Text" />
 </TabbedPage>

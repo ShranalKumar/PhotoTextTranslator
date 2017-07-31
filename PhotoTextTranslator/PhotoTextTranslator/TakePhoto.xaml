@@ -5,8 +5,8 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <Button Text="Take photo" Clicked="Button_Clicked" Margin="20,20,20,20"/>
-            <StackLayout>
-                <Label x:Name="picSentence" HorizontalTextAlignment="Center" />
+            <StackLayout HorizontalOptions="Center">
+                <Label x:Name="picSentence" />
                 <Image x:Name="textPic" Aspect="AspectFit" />
             </StackLayout>            
         </StackLayout>        
