@@ -3,12 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PhotoTextTranslator.TakePhoto">
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
-            <Button Text="Take photo" Clicked="Button_Clicked" Margin="20,20,20,20"/>
-            <StackLayout HorizontalOptions="Center">
-                <Label x:Name="picSentence" />
-                <Image x:Name="textPic" Aspect="AspectFit" />
-            </StackLayout>            
-        </StackLayout>        
+        <ScrollView>
+            <StackLayout Orientation="Vertical" Margin="20">
+                <Button Text="Take photo" Clicked="Button_Clicked" Margin="20,20,20,20"/>
+                <StackLayout HorizontalOptions="Center">
+                    <Label x:Name="picSentence" />
+                    <Image x:Name="textPic" Aspect="AspectFit" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
