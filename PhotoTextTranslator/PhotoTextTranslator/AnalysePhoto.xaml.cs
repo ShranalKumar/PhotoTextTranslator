@@ -10,52 +10,71 @@ using System.Runtime.Serialization;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.IO;
-
+using System.Net.Http.Headers;
+using System.Xml.Linq;
+using Newtonsoft.Json;
 
 namespace PhotoTextTranslator
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AnalysePhoto : ContentPage
     {
+        Dictionary<string, string> language;
+        string action;
         public AnalysePhoto()
         {
             InitializeComponent();
         }
 
-        private void translateButton_Clicked(object sender, EventArgs e)
+        private async void translateButton_Clicked(object sender, EventArgs e)
         {
-            picSentence.Text = TranslateManager.createInstance.getSentence();
+            var text = TranslateManager.createInstance.getSentence();
+            picSentence.Text = text;
+            string langCode = language[action].ToString();
+            string token = await getTokenAsync();
+
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var textEncode = WebUtility.UrlEncode(text);
+            var uri = "https://api.microsofttranslator.com/V2/Http.svc/Translate?text=" + textEncode + "&to=" + langCode;
+
+            var response = await client.GetStringAsync(uri);
+            var xDoc = XDocument.Parse(response);
+            var translate = xDoc.Root?.FirstNode.ToString();
+            translation.Text = translate;
         }
 
         private async void languages_Clicked(object sender, EventArgs e)
         {
+            
+            language = makeDictionary();
             string token = await getTokenAsync();
-            string[] lang = { "1", "2", "3" };
-            getLanguagesAsync(token);
-           /* var action = await DisplayActionSheet("Select language", "Cancel", "", lang);
+            string[] langNames = language.Keys.ToArray();
+            action = await DisplayActionSheet("Select language", "Cancel", "", langNames);
             if (action != "Cancel") { selected.Text = "Language Selected: " + action; }
-            else { selected.Text = ""; }*/
+            else { selected.Text = ""; }
         }
 
-        private void getLanguagesAsync(string token)
+        private Dictionary<string, string> makeDictionary()
         {
-            string uri = "https://api.microsofttranslator.com/V2/Http.svc/GetLanguagesForTranslate";
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(uri);
-            httpWebRequest.Headers["Authorization"] = token;
-
-            httpWebRequest.BeginGetResponse(new AsyncCallback(FinishRequest), httpWebRequest);
-        }
-
-        private async void FinishRequest(IAsyncResult ar)
-        {
-            HttpWebResponse response = (ar.AsyncState as HttpWebRequest).EndGetResponse(ar) as HttpWebResponse;
-
-            using (Stream receiveStream = response.GetResponseStream())
-            {
-                DataContractSerializer dcs = new DataContractSerializer(typeof(string[]));
-                string[] languages = (string[])dcs.ReadObject(receiveStream);
-                await DisplayActionSheet("Select language", "Cancel", "", languages);
-            }
+            Dictionary<string, string> languages = new Dictionary<string, string>();
+            languages.Add("English", "en");
+            languages.Add("Arabic", "ar");
+            languages.Add("Bulgarian", "bg");
+            languages.Add("Chinese Simplified", "zh-CHS");
+            languages.Add("Chinese Traditional", "zh-CHT");
+            languages.Add("French", "fr");
+            languages.Add("German", "de");
+            languages.Add("Greek", "el");
+            languages.Add("Hebrew", "he");
+            languages.Add("Hindi", "hi");
+            languages.Add("Hungarian", "hu");
+            languages.Add("Indonesian", "id");
+            languages.Add("Italian", "it");
+            languages.Add("Japanese", "ja");
+            languages.Add("Korean", "ko");
+            languages.Add("Spanish", "es");
+            return languages;
         }
 
         public async Task<string> getTokenAsync()
