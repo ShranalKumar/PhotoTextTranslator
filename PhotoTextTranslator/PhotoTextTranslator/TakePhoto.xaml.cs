@@ -54,7 +54,7 @@ namespace PhotoTextTranslator
             var uri = "https://westcentralus.api.cognitive.microsoft.com/vision/v1.0/ocr?language=unk";
 
             HttpResponseMessage response;
-
+            
             byte[] byteData = convertToByteArray(text);
 
             using (var content = new ByteArrayContent(byteData))
